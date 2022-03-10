@@ -13,20 +13,25 @@ with open('template.html', 'r', encoding="utf-8") as html:
     corpo_msg = template.substitute(nome='Evelyn Cleto', data=data_atual)
 
 msg = MIMEMultipart()
-msg['from'] = 'Evelyn Cleto da Silva'
+msg['from'] = 'SEU NOME'
 msg['to'] = 'EMAILDOCLIENTE@GMAIL.COM' # Cliente
-msg['subject'] = 'Atenção: este é um e-mail de teste.'
+msg['subject'] = 'ASSUNTO DO E-MAIL'
 
 corpo = MIMEText(corpo_msg, 'html')
 msg.attach(corpo)
 
-with open('imagem.jpg', 'rb') as img:
-    img = MIMEImage(img.read())
-    msg.attach(img)
+# ENVIO DE IMAGEM EM ANEXO
+# with open('IMAGEM.JPG', 'rb') as img:
+#   img = MIMEImage(img.read())
+#   msg.attach(img)
 
 with smtplib.SMTP(host='smtp.gmail.com', port=587) as smtp:
+    try:
         smtp.ehlo()
         smtp.starttls()
         smtp.login(meu_email, minha_senha)
         smtp.send_message(msg)
         print('E-mail enviado com sucesso.')
+     except Exception as e:
+        print('E-mail não enviado...')
+        print('Erro:', e)
